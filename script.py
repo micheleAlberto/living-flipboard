@@ -30,7 +30,7 @@ def query(c,x,n):
     if c[x_up]==c[x_do]:
         return np.random.random()
     else:
-        if np.random.random()>0.4 :
+        if np.random.random()>0.2:
             return c[x_up]>c[x_do]
         else :
             return not c[x_up]>c[x_do]
@@ -50,18 +50,18 @@ def each_pixel():
 
 
 im = np.array([[
-        np.random.binomial(1, 0.5) 
+        np.random.binomial(1, 0.9) 
     for i in range(h)] 
     for j in range(w)])
-for n in range(1,9):
+for label,n in enumerate([9,7,5,3,2,9,5,4,3,8,6,4,2]):
     loc=mk_locality(n,w,h)
     def feat(i,j,im):
         return tuple( [im[i,j] for i,j in loc(i,j)])
-    for prove in range(4):
+    for prove in range(3):
         print prove
         c=Counter( [feat(i,j,im) for i,j in each_pixel()])
         for i,j in each_pixel():
             im[i,j]=query(c,feat(i,j,im),n)
-        cv2.imwrite('{}.png'.format(n),im*255)
+        cv2.imwrite('{}.png'.format(label),im*255)
 
 
